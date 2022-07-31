@@ -5,21 +5,26 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
+
 
 @EnableWebSecurity
-class SecurityConfig @Autowired constructor(private val userRepository: IUserRepository) : WebSecurityConfigurerAdapter() {
+class SecurityConfig @Autowired constructor(private val userRepository: IUserRepository) :
+    WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
-        http.authorizeRequests()
-            .mvcMatchers("/login").permitAll()
-            .anyRequest().authenticated()
-            .and()
+        http
             .csrf().disable()
-            .formLogin()
+            .antMatcher("/**")
+            .authorizeRequests().anyRequest().authenticated()
+            .and()
+            .httpBasic().realmName("Your secret area.")
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth
-            .userDetailsService(MyUserDetailsService(userRepository))
+            .authenticationProvider(DemoBasicAuthProvider(userRepository))
     }
 }

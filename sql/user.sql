@@ -1,3 +1,6 @@
+-- psql login
+-- psql -h localhost -d postgres
+
 -- table作成
 CREATE TABLE i_user
 (
@@ -10,7 +13,7 @@ CREATE TABLE i_user
 
 -- data注入
 INSERT INTO i_user (id, email, password, role_type)
-VALUES (1, 'admin', '{bcrypt}$2a$08$LjbpNtAC8EyX8db8eWm/X.dvVhaR3HCmaG0ggiy60TegkUl/Ifh7S', 'ADMIN'),
+VALUES (1, 'admin', '$2a$10$u/rC0jwmFjf19aP7ElnB..mvV.DNkyDbyQiDfvCkLg0fejdZII7i6', 'ADMIN'),
        (2, 'techbot', '{bcrypt}techbot', 'USER');
 
 -- data確認

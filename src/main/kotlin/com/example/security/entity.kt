@@ -29,7 +29,7 @@ data class IUser(
         return true
     }
 
-    override fun getUsername(): String? {
+    override fun getUsername(): String {
         return this.email
     }
 
@@ -37,7 +37,7 @@ data class IUser(
         return true
     }
 
-    override fun getPassword(): String? {
+    override fun getPassword(): String {
         return this.pass
     }
 
